@@ -1,9 +1,10 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.1;
 
+import "@openzeppelin/contracts/access/Ownable.sol";
 import './interface/ICrowdFunding.sol';
 
-contract CrowdFunding is ICrowdFunding {
+contract CrowdFunding is ICrowdFunding, Ownable {
 
     address public immutable override factory;
 
@@ -21,6 +22,25 @@ contract CrowdFunding is ICrowdFunding {
     }
 
     function donate(uint amount) public override {
+        Donor storage spender = donors[msg.sender];
+        spender.donated = true;
+        spender.amountDonated += amount;
+
+        // This function doesn't seem right.
         amountReceived += amount;
     }
+
+    function withdraw() public onlyOwner {
+        address _owner = owner();
+
+        // we need to check if the campaign contract balance is equal to or greater than the target
+
+        uint256 amount = address(this).balance;
+        (bool sent, ) = _owner.call{value: amount}("");
+        require(sent, "Failed to send Ether");
+    }
+
+    // Functions below makes this contract payable
+    receive() external payable {}
+    fallback() external payable {}
 }
