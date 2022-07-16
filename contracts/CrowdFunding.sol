@@ -2,26 +2,40 @@
 pragma solidity ^0.8.1;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
-import './interface/ICrowdFunding.sol';
+import "./interface/ICrowdFunding.sol";
 
 contract CrowdFunding is ICrowdFunding, Ownable {
-
     address public immutable override factory;
 
     string public title;
     uint target;
     uint amountReceived;
 
+    struct campaignStruct {
+        string title;
+        uint target;
+        uint amountReceived;
+    }
+
+    campaignStruct[] public campaignLits;
+
     mapping(address => Donor) public donors;
 
-    constructor(){factory = msg.sender;}
+    constructor() {
+        factory = msg.sender;
+    }
 
-    function createCampaign(string calldata _title, uint _target) public override {
+    function createCampaign(string calldata _title, uint _target)
+        public
+        override
+    {
         title = _title;
         target = _target;
     }
 
     function donate() public payable override {
+        // make sure the amount is greater than 0
+        require(msg.value > 0, "You must send some Ether");
         Donor storage spender = donors[msg.sender];
         spender.donated = true;
         spender.amountDonated += msg.value;
@@ -40,5 +54,6 @@ contract CrowdFunding is ICrowdFunding, Ownable {
 
     // Functions below makes this contract payable
     receive() external payable {}
+
     fallback() external payable {}
 }
