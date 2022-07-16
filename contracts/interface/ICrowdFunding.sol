@@ -7,7 +7,9 @@ interface ICrowdFunding {
         uint amountDonated;
     }
 
-    function factory() external view returns(address);
+    function createCampaign(string calldata _title, uint _target) public;
+
+    function factory() external view returns (address);
 
     function createCampaign(string calldata _title, uint _target) external;
 
