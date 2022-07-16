@@ -2,12 +2,6 @@
 pragma solidity ^0.8.1;
 
 interface ICrowdFunding {
-    // struct Campaign {
-    //     string title;
-    //     uint target;
-    //     uint amountReceived;
-    // }
-
     struct Donor {
         bool donated;
         uint amountDonated;
@@ -15,7 +9,7 @@ interface ICrowdFunding {
 
     function factory() external view returns(address);
 
-    function createCampaign(string calldata _title, uint _target, uint _amountReceived) external;
+    function createCampaign(string calldata _title, uint _target) external;
 
-    function donate(uint amount, uint campaign) external;
+    function donate(uint _amount, uint _campaign) external;
 }
