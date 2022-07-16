@@ -21,7 +21,7 @@ contract CrowdFunding is ICrowdFunding, Ownable {
         target = _target;
     }
 
-    function donate(uint amount) public override {
+    function donate(uint amount) public payable override {
         Donor storage spender = donors[msg.sender];
         spender.donated = true;
         spender.amountDonated += amount;
