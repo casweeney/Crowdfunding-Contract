@@ -20,7 +20,7 @@ contract CrowdFunding is ICrowdFunding {
         target = _target;
     }
 
-    function donate(uint amount, uint campaign) public override {
+    function donate(uint amount) public override {
         amountReceived += amount;
     }
 }
