@@ -26,14 +26,15 @@ contract CrowdFunding is ICrowdFunding, Ownable {
         spender.donated = true;
         spender.amountDonated += amount;
 
-        // This function doesn't seem right.
+        // This function doesn't seem right yet.
         amountReceived += amount;
     }
 
     function withdraw() public onlyOwner {
         address _owner = owner();
 
-        // we need to check if the campaign contract balance is equal to or greater than the target
+        // We need to check if the campaign contract balance is equal to or greater than the target
+        // Then we perform the % deduction here
 
         uint256 amount = address(this).balance;
         (bool sent, ) = _owner.call{value: amount}("");
