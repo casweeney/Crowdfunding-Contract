@@ -11,5 +11,5 @@ interface ICrowdFunding {
 
     function createCampaign(string calldata _title, uint _target) external;
 
-    function donate(uint _amount) external payable;
+    function donate() external payable;
 }
