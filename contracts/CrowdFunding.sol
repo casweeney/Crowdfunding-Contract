@@ -11,14 +11,6 @@ contract CrowdFunding is ICrowdFunding, Ownable {
     uint target;
     uint amountReceived;
 
-    struct campaignStruct {
-        string title;
-        uint target;
-        uint amountReceived;
-    }
-
-    campaignStruct[] public campaignLits;
-
     mapping(address => Donor) public donors;
 
     constructor() {
